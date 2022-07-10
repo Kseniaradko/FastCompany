@@ -21,6 +21,7 @@ const Users = () => {
     };
 
     const classesQualities = "badge m-1 bg-";
+    console.log(classesOfPhrases)
 
     const renderTable = () => {
         if (users.length !== 0) return (

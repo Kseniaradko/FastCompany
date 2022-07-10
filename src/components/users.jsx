@@ -22,6 +22,14 @@ const Users = () => {
 
     const classesQualities = "badge m-1 bg-";
 
+    const renderQualitiesForTable = (user) => {
+        return user.qualities.map((quality) => 
+            <span key={quality._id} className= {classesQualities + quality.color}>
+                {quality.name}
+            </span>
+        )
+    }
+
     const renderTable = () => {
         if (users.length !== 0) return (
             <table class="table">
@@ -40,8 +48,7 @@ const Users = () => {
                         (
                             <tr key = {user._id}>
                                 <th scope="row">{user.name}</th>
-                                <td>{user.qualities.map((quality) => <span key={quality._id} className= {classesQualities + quality.color}>
-                                    {quality.name}</span>)}
+                                <td>{renderQualitiesForTable(user)}
                                 </td>
                                 <td>{user.profession.name}</td>
                                 <td>{user.completedMeetings}</td>

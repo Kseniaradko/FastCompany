@@ -1,30 +1,28 @@
 import React, { useState } from 'react';
 import api from '../api'
-import { fetchAll } from '../api/fake.api/user.api';
+
 
 const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll());
 
     const handleDelete = (id) => {
-        setUsers(users => users.filter((user) => user._id !== id))
+        setUsers(users.filter((user) => user._id !== id))
     };
 
     const renderPhrase = (number) => {
-        const phrase = "тусанет с тобой сегодня";
+        const phrase = "с тобой сегодня";
         
         let num = number % 100;
         let value = num % 10;
 
         if (number === 0) return "Никто с тобой не тусанет!" 
-        if (num > 11 && num < 15) return number + " человек " + phrase;
-        return value > 1 && value < 5? number + " человека " + phrase: number + " человек " + phrase;
+        if (num > 11 && num < 15) return number + " человек тусанет " + phrase;
+        return value > 1 && value < 5? number + " человека тусанут " + phrase: number + " человек тусанет " + phrase;
     };
-
-    const classesQualities = "badge m-1 bg-";
 
     const renderQualitiesForTable = (user) => {
         return user.qualities.map((quality) => 
-            <span key={quality._id} className= {classesQualities + quality.color}>
+            <span key={quality._id} className= {"badge m-1 bg-" + quality.color}>
                 {quality.name}
             </span>
         )
@@ -32,7 +30,7 @@ const Users = () => {
 
     const renderTable = () => {
         if (users.length !== 0) return (
-            <table class="table">
+            <table className = "table">
                 <thead>
                     <tr>
                         <th scope="col">Имя</th>
@@ -40,7 +38,7 @@ const Users = () => {
                         <th scope="col">Профессия</th>
                         <th scope="col">Встретился, раз</th>
                         <th scope="col">Оценка</th>
-                        <th scope="col"></th>
+                        <th />
                     </tr>
                 </thead>
                 <tbody>
@@ -53,7 +51,14 @@ const Users = () => {
                                 <td>{user.profession.name}</td>
                                 <td>{user.completedMeetings}</td>
                                 <td>{user.rate}/5</td>
-                                <td><button className='btn btn-danger' onClick={() => handleDelete(user._id)}>Delete</button></td>
+                                <td>
+                                    <button
+                                        className='btn btn-danger' 
+                                        onClick={() => handleDelete(user._id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                         )
                     )}
@@ -62,14 +67,10 @@ const Users = () => {
         )
     }
 
-    
-    let classesOfPhrases = "badge ";
-    classesOfPhrases += users.length === 0? "bg-danger": "bg-primary";
-
     return (
         <>
             <h2>
-                <span className={classesOfPhrases}>{renderPhrase(users.length)}</span>
+                <span className={"badge " + (users.length === 0? "bg-danger": "bg-primary")}>{renderPhrase(users.length)}</span>
             </h2>
             {renderTable()}
         </>

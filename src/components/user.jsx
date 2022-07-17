@@ -2,7 +2,7 @@ import React from "react";
 import Qualitie from "./qualitie";
 import BookMark from "./bookmark";
 
-const User = ({ user, handleDelete, handleToggleBookMark}) => {
+const User = ({ user, onDelete, onBookMark}) => {
 
     return (
         <tr key = {user._id}>
@@ -12,11 +12,11 @@ const User = ({ user, handleDelete, handleToggleBookMark}) => {
             <td>{user.profession.name}</td>
             <td>{user.completedMeetings}</td>
             <td>{user.rate}/5</td>
-            <td>{<BookMark bookmark={user.bookmark} onClick={() => handleToggleBookMark(user._id)}/>}</td>
+            <td>{<BookMark bookmark={user.bookmark} onClick={() => onBookMark(user._id)}/>}</td>
             <td>
                 <button
                     className='btn btn-danger' 
-                    onClick={() => handleDelete(user._id)}
+                    onClick={() => onDelete(user._id)}
                 >
                     Delete
                 </button>

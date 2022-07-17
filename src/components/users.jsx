@@ -23,8 +23,8 @@ const Users = ({ users, ...rest}) => (
                             <User 
                                 key={user._id}
                                 user={user}
-                                handleDelete={rest.onDelete}
-                                handleToggleBookMark={rest.onBookMark}
+                                onDelete={rest.onDelete}
+                                onBookMark={rest.onBookMark}
                             />
                         )
                     )}

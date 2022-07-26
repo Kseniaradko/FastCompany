@@ -1,14 +1,24 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.css"
+import "bootstrap/dist/css/bootstrap.css";
+import PropTypes from "prop-types";
 
-const BookMark = ({ bookmark, onClick }) => (
+const BookMark = ({ bookmark, onBookMark }) => (
     <>
-        <div className="bookmark" onClick={onClick}>
+        <div className="bookmark" onClick={onBookMark}>
             <h4>
-            <i className={"bi bi-bookmark-star" + (!bookmark ? "": "-fill")}></i>
-        </h4></div>
+                <i
+                    className={
+                        "bi bi-bookmark-star" + (!bookmark ? "" : "-fill")
+                    }
+                ></i>
+            </h4>
+        </div>
     </>
-)
+);
 
+BookMark.propTypes = {
+    bookmark: PropTypes.bool.isRequired,
+    onBookMark: PropTypes.func.isRequired
+};
 
-export default BookMark
+export default BookMark;

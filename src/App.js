@@ -5,13 +5,7 @@ import Users from "./components/users";
 function App() {
     const [users, setUsers] = useState();
     useEffect(() => {
-        api.users
-            .fetchAll()
-            .then((data) =>
-                setUsers(
-                    data
-                )
-            );
+        api.users.fetchAll().then((data) => setUsers(data));
     }, []);
 
     const handleDelete = (userId) => {
@@ -35,7 +29,8 @@ function App() {
                     users={users}
                     onDelete={handleDelete}
                     onBookMark={handleToggleBookMark}
-                />)}
+                />
+            )}
         </div>
     );
 }

@@ -11,8 +11,8 @@ const UserPage = ({ id }) => {
         api.users.getById(id).then((data) => setUser(data));
     }, []);
 
-    const handleSave = () => {
-        history.replace("/users");
+    const handleClick = () => {
+        history.push("/users");
     };
 
     if (!user) return <>loading...</>;
@@ -20,13 +20,13 @@ const UserPage = ({ id }) => {
     return (
         <>
             <h1>{user.name}</h1>
-            <h2>{`Профессия: ${user.profession.name}`}</h2>
-            {<QualitiesList qualities={user.qualities} />}
-            <h5>{`completedMeetings: ${user.completedMeetings}`}</h5>
-            <h5>{`Rate: ${user.rate}`}</h5>
+            <h2>Профессия: {user.profession.name}</h2>
+            <QualitiesList qualities={user.qualities} />
+            <h5>completedMeetings: {user.completedMeetings}</h5>
+            <h5>Rate: {user.rate}</h5>
             <button
                 onClick={() => {
-                    handleSave();
+                    handleClick();
                 }}
             >
                 Все пользователи

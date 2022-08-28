@@ -1,9 +1,9 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import Login from "./components/login";
-import Main from "./components/main";
-import NavBar from "./components/navbar";
-import Users from "./components/users";
+import Login from "./app/layots/login";
+import Main from "./app/layots/main";
+import NavBar from "./app/components/navbar";
+import Users from "./app/layots/users";
 
 function App() {
     return (

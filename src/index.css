@@ -22,3 +22,9 @@ code {
     height: 40px;
     cursor: pointer;
 }
+
+.link {
+    text-decoration: none;
+    padding-right: 30px;
+    padding-left: 10px;
+}

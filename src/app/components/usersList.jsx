@@ -7,7 +7,7 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 import _ from "lodash";
-import SearchString from "./search";
+import SearchQuery from "./searchQuery";
 const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
@@ -23,6 +23,7 @@ const UsersList = () => {
 
     const handleChange = ({ target }) => {
         setSearchQuery(target.value);
+        setSelectedProf(undefined);
     };
 
     const handleDelete = (userId) => {
@@ -45,9 +46,10 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedProf]);
+    }, [selectedProf, searchQuery]);
 
     const handleProfessionSelect = (item) => {
+        if (searchQuery !== "") setSearchQuery("");
         setSelectedProf(item);
     };
 
@@ -69,7 +71,7 @@ const UsersList = () => {
         };
 
         if (searchQuery && !selectedProf) {
-            filteredUsers = filteredUsers.filter((user) => user.name.toLowerCase().includes(searchQuery));
+            filteredUsers = filteredUsers.filter((user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()));
         }
 
         const count = filteredUsers.length;
@@ -105,7 +107,10 @@ const UsersList = () => {
                     <div className="d-flex flex-column">
                         <SearchStatus length={count} />
                         <div className="container">
-                            <SearchString onChange={handleChange}/>
+                            <SearchQuery
+                                onChange={handleChange}
+                                value={searchQuery}
+                            />
                         </div>
                         {count > 0 && (
                             <UserTable

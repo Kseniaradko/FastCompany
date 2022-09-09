@@ -1,16 +1,16 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import Login from "./app/layots/login";
-import Main from "./app/layots/main";
-import NavBar from "./app/components/navbar";
-import Users from "./app/layots/users";
+import Login from "./app/layout/login";
+import Main from "./app/layout/main";
+import NavBar from "./app/components/ui/navbar";
+import Users from "./app/layout/users";
 
 function App() {
     return (
         <div>
             <NavBar />
             <Route exact path="/" component={Main} />
-            <Route path="/login" component={Login} />
+            <Route path="/login/:type?" component={Login} />
             <Route path="/users/:userId?" component={Users} />
         </div>
     );

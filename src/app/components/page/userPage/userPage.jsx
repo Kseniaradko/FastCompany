@@ -12,7 +12,7 @@ const UserPage = ({ id }) => {
     }, []);
 
     const handleClick = () => {
-        history.push("/users");
+        history.push(`/users/${id}/edit`);
     };
 
     if (!user) return <>loading...</>;
@@ -29,7 +29,7 @@ const UserPage = ({ id }) => {
                     handleClick();
                 }}
             >
-                Все пользователи
+                Изменить
             </button>
         </>
     );

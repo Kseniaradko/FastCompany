@@ -4,7 +4,7 @@ import Login from "./app/layout/login";
 import Main from "./app/layout/main";
 import NavBar from "./app/components/ui/navbar";
 import Users from "./app/layout/users";
-import EditForm from "./app/components/ui/editForm";
+import EditUserPage from "./app/components/page/editUserPage/editUserPage";
 
 function App() {
     return (
@@ -13,7 +13,7 @@ function App() {
             <Route exact path="/" component={Main} />
             <Route path="/login/:type?" component={Login} />
             <Route path="/users/:userId?" exact component={Users} />
-            <Route path="/users/:userId/edit" component={EditForm} />
+            <Route path="/users/:userId/edit" component={EditUserPage} />
         </div>
     );
 }

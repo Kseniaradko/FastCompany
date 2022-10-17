@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import SelectField from "../common/form/selectField";
-import TextField from "../common/form/textField";
-import api from "../../api";
-import RadioField from "../common/form/radioField";
-import MultiSelectField from "../common/form/multiSelectField";
-import { validator } from "../../utils/validator";
+import SelectField from "../../common/form/selectField";
+import TextField from "../../common/form/textField";
+import api from "../../../api";
+import RadioField from "../../common/form/radioField";
+import MultiSelectField from "../../common/form/multiSelectField";
+import { validator } from "../../../utils/validator";
+import BackHistoryButton from "../../common/backHistoryButton";
 
-const EditForm = () => {
+const EditUserPage = () => {
     const { userId } = useParams();
     const history = useHistory();
     const [professions, setProfessions] = useState([]);
@@ -127,6 +128,7 @@ const EditForm = () => {
     return (
         <>
             <div className="container mt-5">
+                <BackHistoryButton />
                 <div className="row">
                     <div className="col-md-6 offset-md-3 shadow p-4">
                         <form onSubmit={handleSubmit}>
@@ -186,4 +188,4 @@ const EditForm = () => {
     );
 };
 
-export default EditForm;
+export default EditUserPage;

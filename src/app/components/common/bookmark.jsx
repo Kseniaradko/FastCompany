@@ -17,8 +17,8 @@ const BookMark = ({ bookmark, onBookMark }) => (
 );
 
 BookMark.propTypes = {
-    bookmark: PropTypes.bool.isRequired,
-    onBookMark: PropTypes.func.isRequired
+    bookmark: PropTypes.bool,
+    onBookMark: PropTypes.func
 };
 
 export default BookMark;

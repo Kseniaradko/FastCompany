@@ -50,7 +50,6 @@ const EditUserPage = () => {
             qualities: getQualities(qualities)
         };
         api.users.update(userId, updatedUser).then(() => history.push(`/users/${userId}`));
-        console.log(updatedUser);
     };
 
     useEffect(() => {

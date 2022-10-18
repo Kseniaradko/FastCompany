@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Qualitie from "./qualitie";
 
 const QualitiesList = ({ qualities }) => {
+    console.log(qualities);
     return (
         <>
             {qualities.map((qualitie) => (

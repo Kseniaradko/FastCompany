@@ -9,21 +9,24 @@ import UserProvider from "./app/hooks/useUsers";
 import { ToastContainer } from "react-toastify";
 import { ProfessionProvider } from "./app/hooks/useProfession";
 import { QualitiesProvider } from "./app/hooks/useQualities";
+import AuthProvider from "./app/hooks/useAuth";
 
 function App() {
     return (
         <div>
-            <NavBar />
-            <Route exact path="/" component={Main} />
-            <QualitiesProvider>
-                <ProfessionProvider>
-                    <Route path="/login/:type?" component={Login} />
-                    <UserProvider>
-                        <Route path="/users/:userId?" exact component={Users} />
-                        <Route path="/users/:userId/edit" component={EditUserPage} />
-                    </UserProvider>
-                </ProfessionProvider>
-            </QualitiesProvider>
+            <AuthProvider>
+                <NavBar />
+                <Route exact path="/" component={Main} />
+                <QualitiesProvider>
+                    <ProfessionProvider>
+                        <Route path="/login/:type?" component={Login} />
+                        <UserProvider>
+                            <Route path="/users/:userId?" exact component={Users} />
+                            <Route path="/users/:userId/edit" component={EditUserPage} />
+                        </UserProvider>
+                    </ProfessionProvider>
+                </QualitiesProvider>
+            </AuthProvider>
             <ToastContainer />
         </div>
     );

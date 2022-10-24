@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import Profession from "./profession";
 
 const UserTable = ({ users, onSort, selectedSort, onBookMark, onDelete }) => {
-    console.log(users);
     const columns = {
         name: {
             path: "name",

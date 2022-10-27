@@ -7,7 +7,7 @@ const Login = () => {
     const { type } = useParams();
     const [formType, setFormType] = useState(type === "register" ? type : "login");
 
-    const toggleFormType = (params) => {
+    const toggleFormType = () => {
         setFormType((prevState) => prevState === "register" ? "login" : "register");
     };
 

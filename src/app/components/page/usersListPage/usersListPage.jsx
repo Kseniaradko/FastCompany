@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { paginate } from "../../../utils/paginate";
 import Pagination from "../../common/pagination";
 import GroupList from "../../common/groupList";
@@ -9,25 +8,22 @@ import _ from "lodash";
 import SearchQuery from "../../ui/searchQuery";
 import { useUser } from "../../../hooks/useUsers";
 import { useProfessions } from "../../../hooks/useProfession";
+import { useAuth } from "../../../hooks/useAuth";
 
 const usersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
+    const { currentUser } = useAuth();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const [searchQuery, setSearchQuery] = useState("");
     const pageSize = 8;
 
     const { users } = useUser();
-    const { professions } = useProfessions();
+    const { professions, isLoading: professionsLoading } = useProfessions();
 
     const handleChange = ({ target }) => {
         setSearchQuery(target.value);
         setSelectedProf(undefined);
-    };
-
-    const handleDelete = (userId) => {
-        // setUsers(users.filter((user) => user._id !== userId));
-        console.log(userId);
     };
 
     const handleToggleBookMark = (id) => {
@@ -58,19 +54,22 @@ const usersListPage = () => {
     };
 
     if (users) {
-        let filteredUsers = users;
-        if (selectedProf && !searchQuery) {
-            filteredUsers = filteredUsers.filter(
-                (user) =>
-                    JSON.stringify(user.profession) ===
-                    JSON.stringify(selectedProf._id)
-            );
-        };
+        function filterUsers(data) {
+            let filteredUsers = users;
+            if (selectedProf && !searchQuery) {
+                filteredUsers = data.filter(
+                    (user) =>
+                        JSON.stringify(user.profession) ===
+                        JSON.stringify(selectedProf._id)
+                );
+            };
 
-        if (searchQuery && !selectedProf) {
-            filteredUsers = filteredUsers.filter((user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()));
+            if (searchQuery && !selectedProf) {
+                filteredUsers = data.filter((user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()));
+            }
+            return filteredUsers.filter((u) => u._id !== currentUser._id);
         }
-
+        const filteredUsers = filterUsers(users);
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
             filteredUsers,
@@ -85,7 +84,7 @@ const usersListPage = () => {
         return (
             <>
                 <div className="d-flex">
-                    {professions && (
+                    {professions && !professionsLoading && (
                         <div className="d-flex flex-column flex-shrink-0 p-3">
                             <GroupList
                                 selectedItem={selectedProf}
@@ -114,7 +113,6 @@ const usersListPage = () => {
                                 users={usersCrop}
                                 onSort={handleSort}
                                 selectedSort={sortBy}
-                                onDelete={handleDelete}
                                 onBookMark={handleToggleBookMark}
                             />
                         )}
@@ -132,10 +130,6 @@ const usersListPage = () => {
         );
     }
     return "loading...";
-};
-
-usersListPage.propTypes = {
-    users: PropTypes.array
 };
 
 export default usersListPage;

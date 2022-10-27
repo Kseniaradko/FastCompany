@@ -4,12 +4,12 @@ import Login from "./app/layout/login";
 import Main from "./app/layout/main";
 import NavBar from "./app/components/ui/navbar";
 import Users from "./app/layout/users";
-import EditUserPage from "./app/components/page/editUserPage/editUserPage";
-import UserProvider from "./app/hooks/useUsers";
 import { ToastContainer } from "react-toastify";
 import { ProfessionProvider } from "./app/hooks/useProfession";
 import { QualitiesProvider } from "./app/hooks/useQualities";
+import ProtectedRoute from "./app/components/common/protectedRoute";
 import AuthProvider from "./app/hooks/useAuth";
+import LogOut from "./app/layout/logOut";
 
 function App() {
     return (
@@ -20,10 +20,8 @@ function App() {
                 <QualitiesProvider>
                     <ProfessionProvider>
                         <Route path="/login/:type?" component={Login} />
-                        <UserProvider>
-                            <Route path="/users/:userId?" exact component={Users} />
-                            <Route path="/users/:userId/edit" component={EditUserPage} />
-                        </UserProvider>
+                        <Route path="/logout" component={LogOut} />
+                        <ProtectedRoute path="/users/:userId?" component={Users} />
                     </ProfessionProvider>
                 </QualitiesProvider>
             </AuthProvider>

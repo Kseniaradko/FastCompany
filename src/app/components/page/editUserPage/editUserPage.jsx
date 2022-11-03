@@ -1,41 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import SelectField from "../../common/form/selectField";
 import TextField from "../../common/form/textField";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 import { validator } from "../../../utils/validator";
 import BackHistoryButton from "../../common/backHistoryButton";
-import { useUser } from "../../../hooks/useUsers";
 import { useProfessions } from "../../../hooks/useProfession";
 import { useQualities } from "../../../hooks/useQualities";
 import { useAuth } from "../../../hooks/useAuth";
 
 const EditUserPage = () => {
-    const { userId } = useParams();
-    const { updateUser } = useAuth();
-    const [data, setData] = useState({
-        name: "",
-        email: "",
-        profession: "",
-        sex: "male",
-        qualities: []
-    });
-
+    const history = useHistory();
+    const [isLoading, setIsLoading] = useState(true);
+    const [data, setData] = useState();
+    const { currentUser, updateUser } = useAuth();
     const [errors, setErrors] = useState({});
 
-    const history = useHistory();
-
-    const { getUserById } = useUser();
-    const user = getUserById(userId);
-
-    const { professions } = useProfessions();
+    const { professions, isLoading: professionsLoading } = useProfessions();
     const professionList = professions.map(p => ({
         label: p.name,
         value: p._id
     }));
 
-    const { qualities } = useQualities();
+    const { qualities, isLoading: qualitiesLoading } = useQualities();
     const qualitiesList = qualities.map(q => ({
         label: q.name,
         value: q._id,
@@ -91,30 +79,27 @@ const EditUserPage = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        try {
-            await updateUser({
-                ...data,
-                qualities: getQualities(data.qualities),
-                _id: user._id
-            });
-            console.log(user._id);
-            history.push(`/users/${user._id}`);
-        } catch (error) {
-            setErrors(error);
-        }
+        await updateUser({
+            ...data,
+            qualities: getQualities(data.qualities)
+        });
+        history.push(`/users/${currentUser._id}`);
     };
 
     useEffect(() => {
-        if (user && qualities.length) {
+        if (!professionsLoading && !qualitiesLoading && currentUser && !data) {
             setData(() => ({
-                name: user.name,
-                email: user.email,
-                profession: user.profession,
-                sex: user.sex,
-                qualities: transformData(user.qualities)
+                ...currentUser,
+                qualities: transformData(currentUser.qualities)
             }));
         }
-    }, [userId, qualities.length]);
+    }, [currentUser, data, qualitiesLoading, professionsLoading]);
+
+    useEffect(() => {
+        if (data && isLoading) {
+            setIsLoading(false);
+        }
+    }, [data]);
 
     useEffect(() => {
         validate();
@@ -124,9 +109,9 @@ const EditUserPage = () => {
         <>
             <div className="container mt-5">
                 <BackHistoryButton />
-                {data.name && (
-                    <div className="row">
-                        <div className="col-md-6 offset-md-3 shadow p-4">
+                <div className="row">
+                    <div className="col-md-6 offset-md-3 shadow p-4">
+                        {!isLoading && Object.keys(professions).length > 0 ? (
                             <form onSubmit={handleSubmit}>
                                 <TextField
                                     label="Имя"
@@ -177,9 +162,11 @@ const EditUserPage = () => {
                                     Обновить
                                 </button>
                             </form>
-                        </div>
+                        ) : (
+                            "Loading..."
+                        )}
                     </div>
-                )}
+                </div>
             </div>
         </>
     );

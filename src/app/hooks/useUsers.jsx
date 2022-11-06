@@ -47,15 +47,12 @@ const UserProvider = ({ children }) => {
 
     useEffect(() => {
         if (!isLoading) {
-            console.log("hello");
             const newUsers = [...users];
             const indexUser = newUsers.findIndex(u => u._id === currentUser._id);
             newUsers[indexUser] = currentUser;
             setUsers(newUsers);
         }
     }, [currentUser]);
-
-    console.log(users);
 
     return (
         <UserContext.Provider value={{ users, getUserById }}>

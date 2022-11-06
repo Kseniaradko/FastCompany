@@ -1,15 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useUser } from "../../../hooks/useUsers";
 import UserCard from "../../ui/userCard";
 import QualitiesCard from "../../ui/qualitiesCard";
 import MeetingsCard from "../../ui/meetingsCard";
 import Comments from "../../ui/comments";
-import { CommentsProvider } from "../../../hooks/useComments";
+import { useSelector } from "react-redux";
+import { getUserById } from "../../../store/users";
 
 const UserPage = ({ id }) => {
-    const { getUserById } = useUser();
-    const user = getUserById(id);
+    const user = useSelector(getUserById(id));
 
     if (!user) return <>loading...</>;
 
@@ -22,9 +21,7 @@ const UserPage = ({ id }) => {
                     <MeetingsCard amountOfMeetings={user.completedMeetings}/>
                 </div>
                 <div className="col-md-8">
-                    <CommentsProvider>
-                        <Comments />
-                    </CommentsProvider>
+                    <Comments />
                 </div>
             </div>
         </div>

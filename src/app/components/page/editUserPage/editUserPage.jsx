@@ -7,14 +7,17 @@ import MultiSelectField from "../../common/form/multiSelectField";
 import { validator } from "../../../utils/validator";
 import BackHistoryButton from "../../common/backHistoryButton";
 import { useProfessions } from "../../../hooks/useProfession";
-import { useQualities } from "../../../hooks/useQualities";
 import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import { getQualities, getQualitiesLoadingStatus } from "../../../store/qualities";
+import { getCurrentUserData } from "../../../store/users";
 
 const EditUserPage = () => {
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState();
-    const { currentUser, updateUser } = useAuth();
+    const currentUser = useSelector(getCurrentUserData());
+    const { updateUser } = useAuth();
     const [errors, setErrors] = useState({});
 
     const { professions, isLoading: professionsLoading } = useProfessions();
@@ -23,7 +26,8 @@ const EditUserPage = () => {
         value: p._id
     }));
 
-    const { qualities, isLoading: qualitiesLoading } = useQualities();
+    const qualities = useSelector(getQualities());
+    const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
     const qualitiesList = qualities.map(q => ({
         label: q.name,
         value: q._id,
@@ -62,12 +66,14 @@ const EditUserPage = () => {
     };
 
     const transformData = (data) => {
-        return data.map((qual) => qualitiesList.filter((q) => {
-            return q.value === qual;
-        })[0]);
+        if (data) {
+            return data.map((qual) => qualitiesList.filter((q) => {
+                return q.value === qual;
+            })[0]);
+        }
     };
 
-    const getQualities = (elements) => {
+    const getQualitiesList = (elements) => {
         const qualitiesArray = [];
         for (const elem of elements) {
             qualitiesArray.push(elem.value);
@@ -81,7 +87,7 @@ const EditUserPage = () => {
         if (!isValid) return;
         await updateUser({
             ...data,
-            qualities: getQualities(data.qualities)
+            qualities: getQualitiesList(data.qualities)
         });
         history.push(`/users/${currentUser._id}`);
     };

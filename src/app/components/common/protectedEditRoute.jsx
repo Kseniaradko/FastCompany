@@ -1,10 +1,11 @@
 import React from "react";
 import { Redirect, Route, useParams } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { getCurrentUserData } from "../../store/users";
 
 const ProtectedEditRoute = ({ component: Component, children, ...rest }) => {
-    const { currentUser } = useAuth();
+    const currentUser = useSelector(getCurrentUserData());
     const { userId } = useParams();
     return (
         <Route

@@ -1,6 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import commentsReducer from "./comments";
+import qualitiesReducer from "./qualities";
+import usersReducer from "./users";
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+    users: usersReducer,
+    // professions: professionsReducer,
+    qualities: qualitiesReducer,
+    comments: commentsReducer
+});
 
 export function createStore() {
     return configureStore({

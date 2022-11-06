@@ -165,11 +165,10 @@ export const logOut = () => (dispatch) => {
     history.push("/");
 };
 
-export const updateUser = (data) => async (dispatch, getState) => {
+export const updateUser = (data) => async (dispatch) => {
     dispatch(usersRequested());
     try {
         const { content } = await userService.update(data);
-        console.log(getState());
         dispatch(userUpdated(content));
     } catch (error) {
         dispatch(userUpdateFailed(error.message));

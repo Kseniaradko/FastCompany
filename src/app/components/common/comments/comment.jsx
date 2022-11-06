@@ -12,7 +12,6 @@ const Comment = ({
 }) => {
     const user = useSelector(getUserById(userId));
     const currentUserId = useSelector(getCurrentUserId());
-
     return (
         <div className="bg-light card-body  mb-3">
             <div className="row">

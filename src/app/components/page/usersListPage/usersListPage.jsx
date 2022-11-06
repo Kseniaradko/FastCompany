@@ -69,7 +69,7 @@ const usersListPage = () => {
             if (searchQuery && !selectedProf) {
                 filteredUsers = data.filter((user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()));
             }
-            return filteredUsers.filter((u) => u._id !== currentUserId._id);
+            return filteredUsers.filter((u) => u._id !== currentUserId);
         }
         const filteredUsers = filterUsers(users);
         const count = filteredUsers.length;

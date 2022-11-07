@@ -67,10 +67,8 @@ export const createComment = (comment) => async (dispatch) => {
 
 export const removeComments = (id) => async (dispatch) => {
     try {
-        const { content } = await commentService.removeComment(id);
-        if (content === null) {
-            dispatch(commentDeleted(id));
-        }
+        await commentService.removeComment(id);
+        dispatch(commentDeleted(id));
     } catch (error) {
         dispatch(commentDeleteFailed(error.message));
     };

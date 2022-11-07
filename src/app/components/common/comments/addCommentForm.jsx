@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextAreaField from "../form/textAreaField";
 import { validator } from "../../../utils/validator";
 import PropTypes from "prop-types";
@@ -38,6 +38,10 @@ const AddCommentForm = ({ onSubmit }) => {
         clearForm();
     };
 
+    useEffect(() => {
+        validate();
+    }, [data]);
+
     return (
         <div>
             <h2>New comment</h2>
@@ -50,7 +54,7 @@ const AddCommentForm = ({ onSubmit }) => {
                     error={errors.content}
                 />
                 <div className="d-flex justify-content-end">
-                    <button className="btn btn-primary">Опубликовать</button>
+                    <button className="btn btn-primary" disabled={!data.content || ""} >Опубликовать</button>
                 </div>
             </form>
         </div>

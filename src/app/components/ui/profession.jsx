@@ -6,9 +6,7 @@ import { getProfessonsLoadingStatus, getProfessionById } from "../../store/profe
 const Profession = ({ id }) => {
     const professionLoading = useSelector(getProfessonsLoadingStatus());
     const prof = useSelector(getProfessionById(id));
-    if (!professionLoading) {
-        return <p>{prof.name}</p>;
-    } else return "Loading...";
+    if (!professionLoading && prof) return <p>{prof.name}</p>;
 };
 
 Profession.propTypes = {

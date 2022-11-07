@@ -59,6 +59,19 @@ const usersSlice = createSlice({
         },
         authRequested: (state) => {
             state.error = null;
+        },
+        userUpdated: (state, action) => {
+            state.isLoading = false;
+            state.entities = state.entities.map((user) => {
+                if (user._id === action.payload._id) {
+                    return action.payload;
+                }
+                return user;
+            });
+        },
+        userUpdateFailed: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
         }
     }
 
@@ -73,7 +86,9 @@ const {
     authRequestFailed,
     userCreated,
     userLoggedOut,
-    authRequested
+    authRequested,
+    userUpdated,
+    userUpdateFailed
 } = actions;
 
 export const loadUsersList = () => async (dispatch) => {
@@ -95,7 +110,6 @@ export const logIn = ({ payload, redirect }) => async (dispatch) => {
     try {
         const data = await authService.logIn({ email, password });
         dispatch(authRequestSuccess({ userId: data.localId }));
-        console.log(data);
         localStorageService.setTokens(data);
         history.push(redirect);
     } catch (error) {
@@ -149,6 +163,16 @@ export const logOut = () => (dispatch) => {
     localStorageService.removeAuthData();
     dispatch(userLoggedOut());
     history.push("/");
+};
+
+export const updateUser = (data) => async (dispatch) => {
+    dispatch(usersRequested());
+    try {
+        const { content } = await userService.update(data);
+        dispatch(userUpdated(content));
+    } catch (error) {
+        dispatch(userUpdateFailed(error.message));
+    }
 };
 
 export const getCurrentUserData = () => (state) => {

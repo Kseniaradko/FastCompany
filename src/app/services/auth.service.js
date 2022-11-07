@@ -23,7 +23,6 @@ const authService = {
             password,
             returnSecureToken: true
         });
-        console.log(data);
         return data;
     },
     refresh: async () => {
